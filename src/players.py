@@ -8,7 +8,6 @@ player_color = {
 
 
 class Player():
-
     def __init__(self, num, connect4):
         self.num = num
         self.connect4 = connect4
@@ -24,12 +23,10 @@ class Player():
                                         " wins!")
             self.connect4.ongoing = False
             self.connect4.canvas.unbind("<Button 1>")
-            print("unbinded")
         elif self.connect4.check_tie(self.connect4.board):
             self.connect4.change_header("It's a tie!")
             self.connect4.ongoing = False
             self.connect4.canvas.unbind("<Button 1>")
-            print("unbinded")
         else:
             self.connect4.switch_players()
             self.connect4.change_header("It is Player " +
@@ -40,16 +37,15 @@ class Player():
 
 
 class Human_Player(Player):
-
     def click_move(self, event):
-        if (event.x > 25 and
+        if (self.connect4.ongoing and
+                event.x > 25 and
                 event.x < self.connect4.width - 25 and
                 event.y > 100 and
                 event.y < self.connect4.height - 25):
             column = (event.x - 25)//100 + 1
             if column in self.connect4.get_legal_moves(self.connect4.board):
                 self.connect4.play_and_draw_move(column)
-                print("played " + str(column))
                 self.connect4.canvas.unbind("<Button 1>")
                 self.check_win()
             else:
@@ -103,13 +99,11 @@ class AI_Player(Player):
         board = connect4.board
         moves_values_best = self.minimax_helper(board, connect4, 4,
                                                 connect4.current_num)
-        # print(moves_values_best)
         return moves_values_best[0][moves_values_best[1]
                                     .index(moves_values_best[2])]
 
     def choose_move(self):
         move = self.minimax(self.connect4)
-        print("Computer picks: " + str(move))
         return move
 
     def run(self):

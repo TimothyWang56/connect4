@@ -21,7 +21,6 @@ class Connect4():
         self.player2 = None
         self.ongoing = True
         self.board = [[] for i in range(columns)]
-        self.current_player = None
         self.current_num = 1
         self.height = rows * 100 + 125
         self.width = columns * 100 + 50
@@ -70,10 +69,8 @@ class Connect4():
 
     def switch_players(self):
         if self.current_num == 1:
-            self.current_player = self.player2
             self.current_num = 2
         else:
-            self.current_player = self.player1
             self.current_num = 1
 
     def check_column(self, column, player_num):
@@ -220,7 +217,6 @@ class Connect4():
         else:
             self.player1, self.player2 = (Human_Player(1, self),
                                           AI_Player(2, self))
-        self.current_player = self.player1
         thread1 = threading.Thread(target=self.player1.run)
         thread2 = threading.Thread(target=self.player2.run)
         thread1.daemon = True
